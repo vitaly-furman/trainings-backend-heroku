@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  feature:
+    build: .
+    environment:
+      PORT: 8000
+      MONGO_URI: mongodb+srv://user1:user1pass@cluster0.6lbky.mongodb.net/training-system?retryWrites=true&w=majority
+      MONGO_FEATURE_COLLECTION_NAME: workers
+    ports:
+      - 8000:8000
