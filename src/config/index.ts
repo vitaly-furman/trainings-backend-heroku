@@ -3,11 +3,12 @@ import './dotenv';
 
 const config = {
     service: {
-        port: env.get('PORT').required().asPortNumber(),
+        port: 8000 || env.get('PORT').required().asPortNumber(),
     },
     mongo: {
-        uri: env.get('MONGO_URI').required().asUrlString(),
-        featureCollectionName: env.get('MONGO_FEATURE_COLLECTION_NAME').required().asString(),
+        uri: "mongodb+srv://user1:user1pass@cluster0.6lbky.mongodb.net/training-system?retryWrites=true&w=majority" || env.get('MONGO_URI').required().asUrlString(),
+        workersCollectionName: "workers" || env.get('MONGO_WORKERS_COLLECTION_NAME').required().asString(),
+        trainingsCollectionName: "trainings" || env.get('MONGO_TRAININGS_COLLECTION_NAME').required().asString(),
     },
 };
 

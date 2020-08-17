@@ -12,6 +12,15 @@ class WorkerController {
     static async createWorker(req: express.Request, res: express.Response) {
         res.json(await WorkerManager.createWorker(req.body));
     }
+
+    static async updateWorker(req: express.Request, res: express.Response) {
+        res.json(await WorkerManager.updateWorker(req.body));
+    }
+
+    static async deleteWorker(req: express.Request, res: express.Response) {
+        res.json(await WorkerManager.deleteWorker(req.query));
+    }
+
 }
 
 export default WorkerController;

@@ -10,6 +10,15 @@ export const getWorkersRequestSchema = Joi.object({
     params: {},
 });
 
+// DELETE /api/forlders?name=test1
+export const deleteWorkerRequestSchema = Joi.object({
+    query: {
+        workerId: Joi.string(),
+    },
+    body: {},
+    params: {},
+});
+
 
 // POST /api/workers/
 export const createWorkerRequestSchema = Joi.object({

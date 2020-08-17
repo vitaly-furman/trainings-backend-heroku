@@ -76,6 +76,6 @@ const WorkerSchema = new mongoose.Schema({
     },
 });
 
-const WorkerModel = mongoose.model<IWorker & mongoose.Document>(config.mongo.featureCollectionName, WorkerSchema);
+const WorkerModel = mongoose.model<IWorker & mongoose.Document>(config.mongo.workersCollectionName, WorkerSchema);
 
 export default WorkerModel;
