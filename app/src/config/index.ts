@@ -3,7 +3,7 @@ import './dotenv';
 
 const config = {
     service: {
-        port: process.env.PORT || env.get('PORT').required().asPortNumber(),
+        port: parseInt(<string>process.env.PORT) || env.get('PORT').required().asPortNumber(),
     },
     mongo: {
         uri: process.env.MONGO_URI || env.get('MONGO_URI').required().asUrlString(),
