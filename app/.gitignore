@@ -2,6 +2,7 @@
 node_modules/
 
 # Transpiled files
+dist/
 
 # jest coverage static server
 coverage/

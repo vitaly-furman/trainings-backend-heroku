@@ -1,4 +1,4 @@
-interface ITraining {
+export interface ITraining {
     name: string;
     isRequired: string;
     status: string;

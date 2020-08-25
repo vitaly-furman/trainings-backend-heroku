@@ -9,7 +9,7 @@ appRouter.use('/api/workers', workerRouter);
 appRouter.use('/api/trainings', trainingRouter);
 
 appRouter.use('/isAlive', (_req, res) => {
-    res.status(200).send('alive');
+     res.status(200).send('alive');
 });
 
 appRouter.use('*', (_req, res) => {

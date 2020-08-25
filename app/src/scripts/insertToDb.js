@@ -29,6 +29,7 @@ const getTrainings = (workersData) => {
     return trainings;
 }
 
+
 const pushAllWorkers = async (workersData) => {
     const promises = workersData.map((worker) => {
         return axios.post('http://localhost:8000/api/workers', worker);
@@ -43,6 +44,7 @@ const pushAllTrainings = async (workersData) => {
     });
     await Promise.allSettled(promises).then((results) => results.forEach((result) => console.log(result.status, results.indexOf(result))));
 }
+
 
 const main = async () => {
     await pushAllWorkers(workers);

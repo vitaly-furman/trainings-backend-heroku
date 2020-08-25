@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.WorkerManager = void 0;
 const model_1 = require("./model");
 class WorkerManager {
     static getWorkers(query) {

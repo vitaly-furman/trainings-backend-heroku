@@ -10,6 +10,9 @@ wb2 = openpyxl.load_workbook(file2)
 
 ws = wb["רשימת עובדים"]
 ws2 = wb2["List of workers"]
+ws3 = wb2["Departments Vs Trainings"]
+list_of_departments_sheet = wb2["List of Departments"]
+
 
 workers = []
 
@@ -200,6 +203,7 @@ def get_worker(worker_id):
 
 
 def set_production_workers():
+    departments_trainings = get_departments_vs_trainings()
     for row in ws2.iter_rows(min_row=2):
         if row[0].value is not None:
             row_num = row[0].row
@@ -213,8 +217,39 @@ def set_production_workers():
             #     workers.append(worker)
             if worker:
                 worker["team"] = get_clean_string(ws2[f"D{row_num}"].value)
+                set_production_worker_trainings(worker, departments_trainings)
 
+def set_production_worker_trainings(worker, departments_trainings):
+    # teams_trainings = get_departments_vs_trainings()
+    worker_department = worker["team"]
+    if worker_department in departments_trainings.keys():
+        print(worker_department)
+        department_required_trainings = departments_trainings[f"{worker_department}"]
+        for training in department_required_trainings:
+            worker["trainings"].append(
+                {
+                    "name": training,
+                    "isRequired": "נדרש",
+                    "status": "השתתף",
+                    "completionDate": "2020-01-01",
+                    "expiryDate": "2021-01-01",
+                    "trainerName": "N/A"
+                })
 
+def get_departments_vs_trainings():
+    departments_trainings = {}
+    for row in ws3.iter_rows(min_row=2, max_row=18):
+        row_num = row[0].row
+        dept_name = get_clean_string(ws3[f"A{row_num}"].value)
+        trainings = []
+        for cell in row[1:]:
+            column_letter = cell.column_letter
+            training_required = cell.value # 1 or 0
+            if(training_required == 1):
+                training_name = get_clean_string(ws3[f"{column_letter}1"].value)
+                trainings.append(training_name)
+        departments_trainings[dept_name] = trainings
+    return departments_trainings
 def main():
     set_all_workers()
     set_production_workers()

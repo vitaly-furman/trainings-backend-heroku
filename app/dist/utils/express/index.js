@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.wrapController = exports.wrapValidator = void 0;
 exports.wrapValidator = (func) => {
     return (req, _res, next) => {
         func(req)

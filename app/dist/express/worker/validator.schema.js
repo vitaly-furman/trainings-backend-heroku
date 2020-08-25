@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createWorkerRequestSchema = exports.deleteWorkerRequestSchema = exports.getWorkersRequestSchema = void 0;
 const Joi = require("@hapi/joi");
 exports.getWorkersRequestSchema = Joi.object({
     query: {
