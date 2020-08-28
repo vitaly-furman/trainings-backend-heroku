@@ -16,10 +16,13 @@ class WorkerManager {
         const newWorker = { ...worker };
         return model_1.default.create(newWorker);
     }
-    static updateWorker(worker) {
-        const updatedWorker = { ...worker };
-        const query = { 'workerId': updatedWorker.workerId };
-        return model_1.default.findOneAndUpdate(query, updatedWorker, { upsert: true });
+    static async updateWorkers(workers) {
+        const updatedWorkers = [...workers];
+        console.log(updatedWorkers);
+        const promises = updatedWorkers.map(worker => {
+            return model_1.default.findOneAndUpdate({ 'workerId': worker.workerId }, worker, { upsert: false });
+        });
+        return Promise.all(promises);
     }
     static deleteWorker(query) {
         return model_1.default.findOneAndDelete(query);

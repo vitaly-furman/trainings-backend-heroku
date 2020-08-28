@@ -16,26 +16,52 @@ export class WorkerTrainingsValidator {
 
     async workersTrainingsValidityCheck() {
         const workers = await this.getWorkers();
-        const result: IWorker[] = [];
+        // {'trainingName' : [worker1, worker2, ...]} all workers that have that training expired
+        const trainingsToWorkers = {}; 
         workers.forEach(worker => {
             const workersExpiredTrainings = this.workerTrainingsValidyCheck(worker);
-            if (workersExpiredTrainings.length > 0) {
-                worker.trainings = workersExpiredTrainings
-                result.push(worker);
-            }
+            workersExpiredTrainings.forEach(training => {
+                if(!trainingsToWorkers.hasOwnProperty(training.name)){
+                    trainingsToWorkers[training.name] = [];
+                }
+                trainingsToWorkers[training.name].push(worker);
+            })
         });
-        this.sendAlertMessage(result);
+        this.sendAlertMessage(trainingsToWorkers);
     }
+    
+    // async workersTrainingsValidityCheck() {
+    //     const workers = await this.getWorkers();
+    //     const result: IWorker[] = [];
+    //     workers.forEach(worker => {
+    //         const workersExpiredTrainings = this.workerTrainingsValidyCheck(worker);
+    //         if (workersExpiredTrainings.length > 0) {
+    //             worker.trainings = workersExpiredTrainings
+    //             result.push(worker);
+    //         }
+    //     });
+    //     this.sendAlertMessage(result);
+    // }
 
-    private sendAlertMessage(workers: IWorker[]) {
-        workers.forEach(worker => {
-            const subject = `Worker training about to expire - ${worker.firstName} ${worker.lastName}`
-            worker.trainings.forEach(training => {
-                const text = `This is an automatic message, the training: ${training.name} is about to expire in ${training.expiryDate}.`;
-                console.log(subject, text);
-                this.mailer.send(subject, text);
-            });
-        })
+    private sendAlertMessage(trainingsToWorkers: { [x: string]: IWorker[]; }) {
+        for(const trainingName in trainingsToWorkers){
+            const subject = `Training is about to expire - ${trainingName}`;
+            let text = '';
+            trainingsToWorkers[trainingName].forEach(worker => {
+                const workerText = `${worker.firstName} ${worker.lastName} - ${worker.workerId}\n`;
+                text += workerText;
+            })
+            this.mailer.send(subject, text);
+        }
+        
+        // workers.forEach(worker => {
+        //     const subject = `Worker training about to expire - ${worker.firstName} ${worker.lastName}`
+        //     worker.trainings.forEach(training => {
+        //         const text = `This is an automatic message, the training: ${training.name} is about to expire in ${training.expiryDate}.`;
+        //         console.log(subject, text);
+        //         this.mailer.send(subject, text);
+        //     });
+        // })
     }
 
 
@@ -43,11 +69,30 @@ export class WorkerTrainingsValidator {
     workerTrainingsValidyCheck(worker: IWorker) {
         let expiredTrainings: ITraining[] = [];
         worker.trainings.forEach(training => {
-            if (this.isTrainingExpiryLessThanMonth(training)) {
-                expiredTrainings.push(training);
+            const mostRecentTraining = this.getMostRecentTraining(worker, training);
+            if (this.isTrainingExpiryLessThanMonth(mostRecentTraining) && !this.trainingExistInTrainingsList(expiredTrainings, training.name)) {
+                expiredTrainings.push(mostRecentTraining);
             }
         });
         return expiredTrainings;
+    }
+
+    trainingExistInTrainingsList(trainings: ITraining[], trainingName: string){
+        let result = false;
+        trainings.forEach(training => {
+            if(training.name === trainingName) result = true;
+        });
+        return result;
+    }
+
+    getMostRecentTraining(worker: IWorker, training: ITraining): ITraining{
+        let mostRecentTraining: ITraining = training;
+        worker.trainings.forEach(workerTraining => {
+            if(workerTraining.name === mostRecentTraining.name && workerTraining.expiryDate > mostRecentTraining.expiryDate) {
+                mostRecentTraining = workerTraining
+            }
+        })
+        return mostRecentTraining;
     }
 
     isTrainingExpiryLessThanMonth(training: any) {

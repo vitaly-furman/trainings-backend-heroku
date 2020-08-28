@@ -10,7 +10,7 @@ const workerRouter = express_1.Router();
 workerRouter.get('/', joi_1.default(validator_schema_1.getWorkersRequestSchema), express_2.wrapController(controller_1.default.getWorkers));
 workerRouter.get('/trainings', joi_1.default(validator_schema_1.getWorkersRequestSchema), express_2.wrapController(controller_1.default.getWorkerTrainings));
 workerRouter.post('/', joi_1.default(validator_schema_1.createWorkerRequestSchema), express_2.wrapController(controller_1.default.createWorker));
-workerRouter.put('/', joi_1.default(validator_schema_1.createWorkerRequestSchema), express_2.wrapController(controller_1.default.updateWorker));
+workerRouter.put('/', joi_1.default(validator_schema_1.updateWorkersRequestSchema), express_2.wrapController(controller_1.default.updateWorkers));
 workerRouter.delete('/', joi_1.default(validator_schema_1.deleteWorkerRequestSchema), express_2.wrapController(controller_1.default.deleteWorker));
 workerRouter.get('/hardToValidateWithSchema', express_2.wrapValidator(validator_1.default.somethingThatIsImpossibleToValidateWithSchema));
 exports.default = workerRouter;

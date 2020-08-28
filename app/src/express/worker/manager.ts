@@ -1,6 +1,8 @@
 import WorkerModel from './model';
 import { IWorker } from './interface';
 
+
+
 export class WorkerManager {
     static getWorkers(query: Partial<IWorker>) {
         return WorkerModel.find(query)
@@ -18,10 +20,13 @@ export class WorkerManager {
         return WorkerModel.create(newWorker);
     }
 
-    static updateWorker(worker: IWorker) {
-        const updatedWorker = { ...worker };
-        const query = { 'workerId': updatedWorker.workerId };
-        return WorkerModel.findOneAndUpdate(query, updatedWorker, { upsert: true });
+    static async updateWorkers(workers: IWorker[]) {
+        const updatedWorkers = [ ...workers ];
+        console.log(updatedWorkers);
+        const promises = updatedWorkers.map(worker => {
+            return WorkerModel.findOneAndUpdate({ 'workerId': worker.workerId }, worker, { upsert: false });
+        });
+        return Promise.all(promises);
     }
 
     static deleteWorker(query: Partial<IWorker>) {

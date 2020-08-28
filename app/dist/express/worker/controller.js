@@ -11,8 +11,8 @@ class WorkerController {
     static async createWorker(req, res) {
         res.json(await manager_1.WorkerManager.createWorker(req.body));
     }
-    static async updateWorker(req, res) {
-        res.json(await manager_1.WorkerManager.updateWorker(req.body));
+    static async updateWorkers(req, res) {
+        res.json(await manager_1.WorkerManager.updateWorkers(req.body));
     }
     static async deleteWorker(req, res) {
         res.json(await manager_1.WorkerManager.deleteWorker(req.query));
