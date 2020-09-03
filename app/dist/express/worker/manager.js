@@ -20,7 +20,7 @@ class WorkerManager {
         const updatedWorkers = [...workers];
         console.log(updatedWorkers);
         const promises = updatedWorkers.map(worker => {
-            return model_1.default.findOneAndUpdate({ 'workerId': worker.workerId }, worker, { upsert: false });
+            return model_1.default.findOneAndUpdate({ 'workerId': worker.workerId }, worker, { upsert: true });
         });
         return Promise.all(promises);
     }

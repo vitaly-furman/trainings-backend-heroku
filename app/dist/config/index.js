@@ -17,7 +17,7 @@ const config = {
         mailTo: env.get('MAILER_TO').asString() || 'furman4488@gmail.com'
     },
     cron: {
-        timeInterval: env.get('CRON_TIME_INTERVAL').asString() || '* * * * *',
+        timeInterval: env.get('CRON_TIME_INTERVAL').asString() || '0 8 * * 0',
         everyDay: env.get('CRON_EVERY_DAY').asString() || '0 8 * * *',
         everyMinute: env.get('CRON_EVERY_MINUTE').asString() || '* * * * *'
     }

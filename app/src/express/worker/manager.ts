@@ -24,7 +24,7 @@ export class WorkerManager {
         const updatedWorkers = [ ...workers ];
         console.log(updatedWorkers);
         const promises = updatedWorkers.map(worker => {
-            return WorkerModel.findOneAndUpdate({ 'workerId': worker.workerId }, worker, { upsert: false });
+            return WorkerModel.findOneAndUpdate({ 'workerId': worker.workerId }, worker, { upsert: true });
         });
         return Promise.all(promises);
     }

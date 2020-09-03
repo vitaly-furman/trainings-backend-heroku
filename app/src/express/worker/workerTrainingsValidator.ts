@@ -29,19 +29,6 @@ export class WorkerTrainingsValidator {
         });
         this.sendAlertMessage(trainingsToWorkers);
     }
-    
-    // async workersTrainingsValidityCheck() {
-    //     const workers = await this.getWorkers();
-    //     const result: IWorker[] = [];
-    //     workers.forEach(worker => {
-    //         const workersExpiredTrainings = this.workerTrainingsValidyCheck(worker);
-    //         if (workersExpiredTrainings.length > 0) {
-    //             worker.trainings = workersExpiredTrainings
-    //             result.push(worker);
-    //         }
-    //     });
-    //     this.sendAlertMessage(result);
-    // }
 
     private sendAlertMessage(trainingsToWorkers: { [x: string]: IWorker[]; }) {
         for(const trainingName in trainingsToWorkers){
@@ -53,15 +40,6 @@ export class WorkerTrainingsValidator {
             })
             this.mailer.send(subject, text);
         }
-        
-        // workers.forEach(worker => {
-        //     const subject = `Worker training about to expire - ${worker.firstName} ${worker.lastName}`
-        //     worker.trainings.forEach(training => {
-        //         const text = `This is an automatic message, the training: ${training.name} is about to expire in ${training.expiryDate}.`;
-        //         console.log(subject, text);
-        //         this.mailer.send(subject, text);
-        //     });
-        // })
     }
 
 
